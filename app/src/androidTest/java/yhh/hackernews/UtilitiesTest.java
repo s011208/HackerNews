@@ -58,7 +58,7 @@ public class UtilitiesTest {
 
     @Test
     public void STORY_DATA_URL_isValid() throws Exception {
-        final String url = Utilities.STORY_DATA_URL("15061605");
+        final String url = Utilities.DATA_URL(15061605);
         assertEquals("https://hacker-news.firebaseio.com/v0/item/15061605.json", url);
     }
 }
