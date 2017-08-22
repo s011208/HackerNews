@@ -35,6 +35,7 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         setContentView(R.layout.activity_story);
 
