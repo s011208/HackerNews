@@ -40,7 +40,6 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
         super.onCreate(savedInstanceState);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         mStory = new Story((ContentValues) getIntent().getParcelableExtra(EXTRA_STORY));
