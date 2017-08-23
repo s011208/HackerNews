@@ -44,6 +44,7 @@ public class FeedListDiff extends DiffUtil.Callback {
 
             return oldItem.getDescendants() == newItem.getDescendants() &&
                     oldItem.getScore() == newItem.getScore() &&
+                    oldItem.getDisplayIndex() == newItem.getDisplayIndex() &&
                     oldItem.getBy().equals(newItem.getBy());
         } else if (mOldList.get(0) instanceof Comment) {
             Comment oldItem = (Comment) mOldList.get(oldItemPosition);

@@ -22,7 +22,7 @@ public class Story extends Feed {
 
     private String mTitle;
     private String mUrl;
-
+    private int mDisplayIndex;
 
     public Story(String rawJSON) {
         super(rawJSON);
@@ -77,5 +77,13 @@ public class Story extends Feed {
 
     public String getUrl() {
         return mUrl;
+    }
+
+    public void setDisplayIndex(int index) {
+        mDisplayIndex = index;
+    }
+
+    public int getDisplayIndex() {
+        return mDisplayIndex;
     }
 }
