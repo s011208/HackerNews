@@ -21,6 +21,8 @@ class RetrieveTopStoriesTask extends AsyncTask<Void, Void, List<Long>> {
 
     interface Callback {
         void onTopStoriesLoadFinish(List<Long> storyIds);
+
+        void onTopStoriesLoadFailed();
     }
 
     private final WeakReference<Callback> mCallback;
@@ -61,7 +63,6 @@ class RetrieveTopStoriesTask extends AsyncTask<Void, Void, List<Long>> {
 
     @Override
     protected void onPostExecute(List<Long> storyIds) {
-        if (storyIds == null) return;
         final Callback cb = mCallback.get();
         if (cb == null) {
             if (DEBUG) {
@@ -69,6 +70,7 @@ class RetrieveTopStoriesTask extends AsyncTask<Void, Void, List<Long>> {
             }
             return;
         }
-        cb.onTopStoriesLoadFinish(storyIds);
+        if (storyIds == null) cb.onTopStoriesLoadFailed();
+        else cb.onTopStoriesLoadFinish(storyIds);
     }
 }

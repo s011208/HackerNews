@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import yhh.hackernews.feed.Story;
 import yhh.hackernews.loader.StoryLoader;
@@ -28,6 +29,7 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
     private TopStoriesRecyclerAdapter mTopStoriesRecyclerAdapter;
 
     private ProgressBar mLoadingProgressbar;
+    private TextView mTopStoryLoadFailHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,8 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
             mSwipeRefreshLayout.setEnabled(true);
             mLoadingProgressbar.setVisibility(View.INVISIBLE);
         }
+
+        mTopStoryLoadFailHint = (TextView) findViewById(R.id.top_story_list_load_failed_hint);
     }
 
     @Override
@@ -81,6 +85,15 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
             mSwipeRefreshLayout.setEnabled(true);
             mLoadingProgressbar.setVisibility(View.INVISIBLE);
         }
+
+        mTopStoryLoadFailHint.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onTopStoryListLoadFail() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mLoadingProgressbar.setVisibility(View.INVISIBLE);
+        mTopStoryLoadFailHint.setVisibility(mStoryLoader.getStoryList().isEmpty() ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override

@@ -33,6 +33,7 @@ public class StoryLoader implements RetrieveTopStoriesTask.Callback, RetrieveSto
 
     public interface Callback {
         void onStoryLoad();
+        void onTopStoryListLoadFail();
     }
 
     private final List<Story> mStoryList = new ArrayList<>();
@@ -73,6 +74,13 @@ public class StoryLoader implements RetrieveTopStoriesTask.Callback, RetrieveSto
             mRunningTaskList.add(task);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
+    }
+
+    @Override
+    public void onTopStoriesLoadFailed() {
+        final Callback cb = mCallback.get();
+        if (cb == null) return;
+        cb.onTopStoryListLoadFail();
     }
 
     @Override
