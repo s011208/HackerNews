@@ -61,8 +61,8 @@ public class Utilities {
         try {
             URL url = new URL(path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setReadTimeout(2500);
-            connection.setConnectTimeout(2500);
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
             connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36");
             if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
