@@ -50,7 +50,7 @@ public class TopStoriesRecyclerAdapter extends RecyclerView.Adapter<TopStoriesRe
         holder.getByInfo().setText(mContext.getString(R.string.top_stories_by_info, story.getScore(),
                 story.getScore() <= 1 ? mContext.getString(R.string.point) : mContext.getString(R.string.points), story.getBy()));
         holder.getTimeAndCommentInfo().setText(mContext.getString(R.string.top_stories_time_and_comment_info,
-                Utilities.getTimeDiff(mContext, story.getTime() * 1000), story.getDescendants(),
+                Utilities.getTimeDiff(mContext, System.currentTimeMillis(), story.getTime() * 1000), story.getDescendants(),
                 story.getDescendants() <= 1 ? mContext.getString(R.string.comment) : mContext.getString(R.string.comments)));
         holder.getBaseView().setOnClickListener(new View.OnClickListener() {
             @Override

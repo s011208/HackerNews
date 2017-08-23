@@ -38,7 +38,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     @Override
     public void onBindViewHolder(CommentRecyclerViewHolder holder, int position) {
         final Comment comment = getItem(position);
-        holder.getByAndTimeInfo().setText(mContext.getString(R.string.comment_by_and_time_info, comment.getBy(), Utilities.getTimeDiff(mContext, comment.getTime() * 1000)));
+        holder.getByAndTimeInfo().setText(mContext.getString(R.string.comment_by_and_time_info, comment.getBy(), Utilities.getTimeDiff(mContext, System.currentTimeMillis(), comment.getTime() * 1000)));
         if (!TextUtils.isEmpty(comment.getText())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 holder.getText().setText(Html.fromHtml(comment.getText(), Html.FROM_HTML_MODE_COMPACT));

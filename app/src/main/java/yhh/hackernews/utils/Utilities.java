@@ -92,8 +92,8 @@ public class Utilities {
     }
 
     @NonNull
-    public static String getTimeDiff(Context context, long time) {
-        final long timeDiff = System.currentTimeMillis() - time;
+    public static String getTimeDiff(Context context, long now, long time) {
+        final long timeDiff = now - time;
         if (timeDiff >= DAY) {
             long day = timeDiff / DAY;
             if (day == 1) {
