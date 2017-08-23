@@ -62,11 +62,7 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
         mRecyclerView = (RecyclerView) findViewById(R.id.comment_recyclerview);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Comment> commentList = mCommentLoader.getComments(mStory.getId());
-        Iterator<Comment> commentIterator = commentList.iterator();
-        while (commentIterator.hasNext()) {
-            if (commentIterator.next().isDeleted()) commentIterator.remove();
-        }
+        List<Comment> commentList = getComments(mStory.getId(), 0);
         if (!commentList.isEmpty()) {
             mHintTextView.setVisibility(View.INVISIBLE);
         } else if (!mStory.getKids().isEmpty()) {
