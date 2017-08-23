@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -87,8 +88,23 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
             return;
         }
 
-        mCommentRecyclerAdapter.updateCommentList(mCommentLoader.getComments(comment.getParent()));
+        List<Comment> storyComments = getComments(mStory.getId(), 0);
+
+        mCommentRecyclerAdapter.updateCommentList(storyComments);
 
         mHintTextView.setVisibility(View.INVISIBLE);
+    }
+
+    private List<Comment> getComments(long keyId, int level) {
+        List<Comment> kidsComment = mCommentLoader.getComments(keyId);
+        if (kidsComment.isEmpty()) return new ArrayList<>();
+        List<Comment> rtn = new ArrayList<>();
+        for (Comment comment : kidsComment) {
+            if (comment.isDeleted()) continue;
+            comment.setLevel(level);
+            rtn.add(comment);
+            rtn.addAll(getComments(comment.getId(), level + 1));
+        }
+        return rtn;
     }
 }

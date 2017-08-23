@@ -1,6 +1,7 @@
 package yhh.hackernews.loader;
 
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -60,6 +61,12 @@ public class CommentLoader implements RetrieveCommentsTask.Callback {
         Utilities.sortFeedListByIdArray(commentList, ids);
 
         cb.onBindComments(comment);
+
+        if (comment.getKids() != null && !comment.getKids().isEmpty()) {
+            // load comment kids
+            setKids(comment.getId(), comment.getKids());
+            loadComments(comment);
+        }
     }
 
     public interface Callback {
@@ -75,6 +82,7 @@ public class CommentLoader implements RetrieveCommentsTask.Callback {
     private CommentLoader() {
     }
 
+    @NonNull
     public List<Comment> getComments(long parentId) {
         List<Comment> rtn = mCommentMap.get(parentId);
         if (rtn == null) return new ArrayList<>();
@@ -93,6 +101,13 @@ public class CommentLoader implements RetrieveCommentsTask.Callback {
         if (story.getKids() == null) return;
         for (Long commentId : story.getKids()) {
             new RetrieveCommentsTask(this, mCallback.get(), commentId, story.getId()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+    }
+
+    public void loadComments(Comment comment) {
+        if (comment.getKids() == null) return;
+        for (Long commentId : comment.getKids()) {
+            new RetrieveCommentsTask(this, mCallback.get(), commentId, comment.getId()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 }

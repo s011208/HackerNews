@@ -14,8 +14,11 @@ class CommentRecyclerViewHolder extends RecyclerView.ViewHolder {
 
     private TextView mByAndTimeInfo, mText;
 
+    private View mBaseView;
+
     CommentRecyclerViewHolder(View itemView) {
         super(itemView);
+        mBaseView = itemView;
         mByAndTimeInfo = (TextView) itemView.findViewById(R.id.by_and_time_info);
         mText = (TextView) itemView.findViewById(R.id.text);
     }
@@ -26,5 +29,9 @@ class CommentRecyclerViewHolder extends RecyclerView.ViewHolder {
 
     TextView getText() {
         return mText;
+    }
+
+    View getBaseView() {
+        return mBaseView;
     }
 }

@@ -26,9 +26,15 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     private final Context mContext;
     private final List<Comment> mCommentList = new ArrayList<>();
 
+    private final int mLevelPadding;
+    private final int mBasePaddingHorizontal, mBasePaddingVertical;
+
     public CommentRecyclerAdapter(@NonNull Context context, @NonNull List<Comment> commentList) {
         mContext = context;
         mCommentList.addAll(commentList);
+        mLevelPadding = mContext.getResources().getDimensionPixelSize(R.dimen.comment_list_item_level_padding);
+        mBasePaddingHorizontal = mContext.getResources().getDimensionPixelSize(R.dimen.base_list_item_padding_horizontal);
+        mBasePaddingVertical = mContext.getResources().getDimensionPixelSize(R.dimen.base_list_item_padding_vertical);
     }
 
 
@@ -40,7 +46,8 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     @Override
     public void onBindViewHolder(CommentRecyclerViewHolder holder, int position) {
         final Comment comment = getItem(position);
-        holder.getByAndTimeInfo().setText(mContext.getString(R.string.comment_by_and_time_info, comment.getBy(), Utilities.getTimeDiff(mContext, System.currentTimeMillis(), comment.getTime() * 1000)));
+        holder.getByAndTimeInfo().setText(mContext.getString(R.string.comment_by_and_time_info, comment.getBy(),
+                Utilities.getTimeDiff(mContext, System.currentTimeMillis(), comment.getTime() * 1000)));
         if (!TextUtils.isEmpty(comment.getText())) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 holder.getText().setText(Html.fromHtml(comment.getText(), Html.FROM_HTML_MODE_COMPACT));
@@ -51,6 +58,9 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         } else {
             holder.getText().setText(comment.getText());
         }
+
+        holder.getBaseView().setPadding(mBasePaddingHorizontal + mLevelPadding * comment.getLevel(),
+                mBasePaddingVertical, mBasePaddingHorizontal, mBasePaddingVertical);
     }
 
     @Override

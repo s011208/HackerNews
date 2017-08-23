@@ -19,6 +19,7 @@ public class Comment extends Feed {
     private long mParent;
     private String mText;
     private boolean mDeleted;
+    private int mLevel = 0;
 
 
     public Comment(String rawJSON) {
@@ -58,5 +59,13 @@ public class Comment extends Feed {
 
     public boolean isDeleted() {
         return mDeleted;
+    }
+
+    public void setLevel(int level) {
+        mLevel = level;
+    }
+
+    public int getLevel() {
+        return mLevel;
     }
 }
