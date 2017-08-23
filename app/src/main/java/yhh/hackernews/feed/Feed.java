@@ -124,4 +124,10 @@ public abstract class Feed {
         }
         return sb.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof Feed) &&
+                getId() == ((Feed) obj).getId();
+    }
 }

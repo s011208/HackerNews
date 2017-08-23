@@ -119,7 +119,6 @@ public class Utilities {
     }
 
     public static void sortFeedListByIdArray(@NonNull List<? extends Feed> feedList, @NonNull final List<Long> ids) {
-        // TODO: 2017/8/23 add test case
         Collections.sort(feedList, new Comparator<Feed>() {
             @Override
             public int compare(Feed o1, Feed o2) {
