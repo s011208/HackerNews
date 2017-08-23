@@ -74,8 +74,7 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
 
     @Override
     public void onStoryLoad() {
-        mTopStoriesRecyclerAdapter.setStoriesList(mStoryLoader.getStoryList());
-        mTopStoriesRecyclerAdapter.notifyDataSetChanged();
+        mTopStoriesRecyclerAdapter.updateStoriesList(mStoryLoader.getStoryList());
         mSwipeRefreshLayout.setRefreshing(false);
 
         if (mStoryLoader.isLoadingStories()) {

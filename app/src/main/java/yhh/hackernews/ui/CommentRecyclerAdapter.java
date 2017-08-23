@@ -3,6 +3,7 @@ package yhh.hackernews.ui;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import yhh.hackernews.R;
 import yhh.hackernews.feed.Comment;
+import yhh.hackernews.utils.FeedListDiff;
 import yhh.hackernews.utils.Utilities;
 
 /**
@@ -61,8 +63,13 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         return mCommentList.get(position);
     }
 
-    public void setCommentList(List<Comment> commentList) {
+    public void updateCommentList(List<Comment> commentList) {
+        final FeedListDiff diff = new FeedListDiff(mCommentList, commentList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diff);
+
         mCommentList.clear();
         mCommentList.addAll(commentList);
+
+        diffResult.dispatchUpdatesTo(this);
     }
 }

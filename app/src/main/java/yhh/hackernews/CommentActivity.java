@@ -87,8 +87,7 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
             return;
         }
 
-        mCommentRecyclerAdapter.setCommentList(mCommentLoader.getComments(comment.getParent()));
-        mCommentRecyclerAdapter.notifyDataSetChanged();
+        mCommentRecyclerAdapter.updateCommentList(mCommentLoader.getComments(comment.getParent()));
 
         mHintTextView.setVisibility(View.INVISIBLE);
     }

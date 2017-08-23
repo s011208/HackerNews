@@ -1,6 +1,7 @@
 package yhh.hackernews.ui;
 
 import android.content.Context;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import yhh.hackernews.R;
 import yhh.hackernews.feed.Story;
+import yhh.hackernews.utils.FeedListDiff;
 import yhh.hackernews.utils.Utilities;
 
 /**
@@ -32,9 +34,14 @@ public class TopStoriesRecyclerAdapter extends RecyclerView.Adapter<TopStoriesRe
         mStoriesList.addAll(storiesList);
     }
 
-    public void setStoriesList(List<Story> storiesList) {
+    public void updateStoriesList(List<Story> storiesList) {
+        final FeedListDiff diff = new FeedListDiff(mStoriesList, storiesList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diff);
+
         mStoriesList.clear();
         mStoriesList.addAll(storiesList);
+
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override
