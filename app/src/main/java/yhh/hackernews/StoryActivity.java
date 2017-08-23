@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import yhh.hackernews.feed.Story;
 import yhh.hackernews.loader.StoryLoader;
@@ -92,7 +93,12 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
     public void onTopStoryListLoadFail() {
         mSwipeRefreshLayout.setRefreshing(false);
         mLoadingProgressbar.setVisibility(View.INVISIBLE);
-        mTopStoryLoadFailHint.setVisibility(mStoryLoader.getStoryList().isEmpty() ? View.VISIBLE : View.INVISIBLE);
+        if (mStoryLoader.getStoryList().isEmpty()) {
+            mTopStoryLoadFailHint.setVisibility(View.VISIBLE);
+        } else {
+            mTopStoryLoadFailHint.setVisibility(View.INVISIBLE);
+            Toast.makeText(StoryActivity.this, R.string.top_story_load_failed_toast, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
