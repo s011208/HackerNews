@@ -1,22 +1,22 @@
 <resources>
-    <string name="app_name">Hacker news</string>
-    <string name="point">point</string>
-    <string name="points">points</string>
-    <string name="hour">hour</string>
-    <string name="hours">hours</string>
-    <string name="minute">minute</string>
-    <string name="minutes">minutes</string>
-    <string name="day">day</string>
-    <string name="days">days</string>
-    <string name="comment">comment</string>
-    <string name="comments">comments</string>
-    <string name="top_stories_by_info">%1$d %2$s by %3$s</string>
-    <string name="top_stories_time_and_comment_info">%1$s ago - %2$d %3$s</string>
-    <string name="top_story_load_failed_hint">Failed to load top news list. Please pull down the screen and refresh again!</string>
-    <string name="top_story_load_failed_toast">Refresh failed. Please try again later.</string>
+    <string name="app_name">"Hacker news"</string>
+    <string name="point">"point"</string>
+    <string name="points">"points"</string>
+    <string name="hour">"hour"</string>
+    <string name="hours">"hours"</string>
+    <string name="minute">"minute"</string>
+    <string name="minutes">"minutes"</string>
+    <string name="day">"day"</string>
+    <string name="days">"days"</string>
+    <string name="comment">"comment"</string>
+    <string name="comments">"comments"</string>
+    <string name="top_stories_by_info">"%1$d %2$s by %3$s"</string>
+    <string name="top_stories_time_and_comment_info">"%1$s ago - %2$d %3$s"</string>
+    <string name="top_story_load_failed_hint">"Failed to load top news list. Please pull down the screen and refresh again!"</string>
+    <string name="top_story_load_failed_toast">"Refresh failed. Please try again later."</string>
 
-    <string name="comment_by_and_time_info">%1$s %2$s ago</string>
+    <string name="comment_by_and_time_info">"%1$s %2$s ago"</string>
 
-    <string name="comment_activity_no_comments_hint">No comment!</string>
-    <string name="comment_activity_loading_hint">Loading...</string>
+    <string name="comment_activity_no_comments_hint">"No comment!"</string>
+    <string name="comment_activity_loading_hint">"Loading..."</string>
 </resources>
