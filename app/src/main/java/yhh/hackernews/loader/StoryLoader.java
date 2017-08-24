@@ -5,9 +5,7 @@ import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import yhh.hackernews.feed.Story;
 import yhh.hackernews.utils.Utilities;
@@ -22,28 +20,17 @@ public class StoryLoader implements RetrieveTopStoriesTask.Callback, RetrieveSto
 
     private static final int TASK_QUEUE_SIZE = 6;
 
-    private static StoryLoader sInstance;
-
-    public static synchronized StoryLoader getInstance() {
-        if (sInstance == null) {
-            sInstance = new StoryLoader();
-        }
-        return sInstance;
-    }
-
     public interface Callback {
         void onStoryLoad();
 
         void onTopStoryListLoadFail();
     }
 
-    private final List<Story> mStoryList = new ArrayList<>();
-    private final List<Long> mTopStoriesId = new ArrayList<>();
-    private final Queue<RetrieveStoriesTask> mTasksQueue = new LinkedList<>();
-    private final List<RetrieveStoriesTask> mRunningTaskList = new ArrayList<>();
     private WeakReference<Callback> mCallback;
+    private final StoryDataSet mStoryDataSet;
 
-    private StoryLoader() {
+    public StoryLoader() {
+        mStoryDataSet = StoryDataSet.getInstance();
     }
 
     public void setCallback(Callback cb) {
@@ -51,34 +38,47 @@ public class StoryLoader implements RetrieveTopStoriesTask.Callback, RetrieveSto
     }
 
     public List<Story> getStoryList() {
-        return new ArrayList<>(mStoryList);
+        return new ArrayList<>(mStoryDataSet.getStoryList());
+    }
+
+    public List<Long> getTopStoriesIdList() {
+        return new ArrayList<>(mStoryDataSet.getTopStoriesId());
+    }
+
+    protected RetrieveTopStoriesTask constructTopStoriesTask(RetrieveTopStoriesTask.Callback cb) {
+        return new RetrieveTopStoriesTask(cb);
+    }
+
+    protected RetrieveStoriesTask constructRetrieveStoriesTask(RetrieveStoriesTask.Callback cb, long storyId) {
+        return new RetrieveStoriesTask(cb, storyId);
     }
 
     public void loadStory() {
         if (DEBUG) {
             Log.v(TAG, "start to loadStory");
         }
-        mTasksQueue.clear();
-        mRunningTaskList.clear();
-        new RetrieveTopStoriesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        mStoryDataSet.getTasksQueue().clear();
+        mStoryDataSet.getRunningTaskList().clear();
+        constructTopStoriesTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
     public void onTopStoriesLoadFinish(List<Long> storyIds) {
-        mTopStoriesId.clear();
-        mTopStoriesId.addAll(storyIds);
+        mStoryDataSet.getTopStoriesId().clear();
+        mStoryDataSet.getTopStoriesId().addAll(storyIds);
         for (Long storyId : storyIds) {
-            mTasksQueue.add(new RetrieveStoriesTask(this, storyId));
+            mStoryDataSet.getTasksQueue().add(constructRetrieveStoriesTask(this, storyId));
         }
-        for (int i = 0; i < TASK_QUEUE_SIZE && !mTasksQueue.isEmpty(); ++i) {
-            RetrieveStoriesTask task = mTasksQueue.poll();
-            mRunningTaskList.add(task);
+        for (int i = 0; i < TASK_QUEUE_SIZE && !mStoryDataSet.getTasksQueue().isEmpty(); ++i) {
+            RetrieveStoriesTask task = mStoryDataSet.getTasksQueue().poll();
+            mStoryDataSet.getRunningTaskList().add(task);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
     }
 
     @Override
     public void onTopStoriesLoadFailed() {
+        if (mCallback == null) return;
         final Callback cb = mCallback.get();
         if (cb == null) return;
         cb.onTopStoryListLoadFail();
@@ -87,20 +87,20 @@ public class StoryLoader implements RetrieveTopStoriesTask.Callback, RetrieveSto
     @Override
     public void onStoryLoad(RetrieveStoriesTask task, Story story) {
         int indexOfStory = -1;
-        for (int i = 0; i < mStoryList.size(); ++i) {
-            final Story item = mStoryList.get(i);
+        for (int i = 0; i < mStoryDataSet.getStoryList().size(); ++i) {
+            final Story item = mStoryDataSet.getStoryList().get(i);
             if (item.getId() == story.getId()) {
                 indexOfStory = i;
                 break;
             }
         }
         if (indexOfStory == -1) {
-            mStoryList.add(story);
+            mStoryDataSet.getStoryList().add(story);
         } else {
-            mStoryList.set(indexOfStory, story);
+            mStoryDataSet.getStoryList().set(indexOfStory, story);
         }
 
-        Utilities.sortFeedListByIdArray(mStoryList, mTopStoriesId);
+        Utilities.sortFeedListByIdArray(mStoryDataSet.getStoryList(), mStoryDataSet.getTopStoriesId());
 
         onStoryLoadFinish(task);
     }
@@ -111,27 +111,33 @@ public class StoryLoader implements RetrieveTopStoriesTask.Callback, RetrieveSto
     }
 
     private void onStoryLoadFinish(RetrieveStoriesTask task) {
-        mRunningTaskList.remove(task);
-        if (mRunningTaskList.isEmpty()) {
+        mStoryDataSet.getRunningTaskList().remove(task);
+        if (mStoryDataSet.getRunningTaskList().isEmpty()) {
             int index = 0;
-            for (Story story : mStoryList) {
+            for (Story story : mStoryDataSet.getStoryList()) {
                 story.setDisplayIndex(index++);
             }
-            final Callback cb = mCallback.get();
-            if (cb == null) return;
-            cb.onStoryLoad();
 
-            if (!mTasksQueue.isEmpty()) {
-                for (int i = 0; i < TASK_QUEUE_SIZE && !mTasksQueue.isEmpty(); ++i) {
-                    RetrieveStoriesTask retrieveStoriesTask = mTasksQueue.poll();
-                    mRunningTaskList.add(retrieveStoriesTask);
+            if (!mStoryDataSet.getTasksQueue().isEmpty()) {
+                for (int i = 0; i < TASK_QUEUE_SIZE && !mStoryDataSet.getTasksQueue().isEmpty(); ++i) {
+                    RetrieveStoriesTask retrieveStoriesTask = mStoryDataSet.getTasksQueue().poll();
+                    mStoryDataSet.getRunningTaskList().add(retrieveStoriesTask);
                     retrieveStoriesTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 }
             }
+
+            if (mCallback == null) return;
+            final Callback cb = mCallback.get();
+            if (cb == null) return;
+            cb.onStoryLoad();
         }
     }
 
     public boolean isLoadingStories() {
-        return !mTasksQueue.isEmpty() || !mRunningTaskList.isEmpty();
+        return !mStoryDataSet.getTasksQueue().isEmpty() || !mStoryDataSet.getRunningTaskList().isEmpty();
+    }
+
+    protected void clearAllDataSet() {
+        mStoryDataSet.clearAllData();
     }
 }

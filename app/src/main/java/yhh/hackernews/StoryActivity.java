@@ -42,12 +42,16 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
         }
         setContentView(R.layout.activity_story);
 
-        mStoryLoader = StoryLoader.getInstance();
+        mStoryLoader = constructStoryLoader();
         mStoryLoader.setCallback(this);
         if (mStoryLoader.getStoryList().isEmpty()) {
             mStoryLoader.loadStory();
         }
         initComponents();
+    }
+
+    StoryLoader constructStoryLoader() {
+        return new StoryLoader();
     }
 
     private void initComponents() {

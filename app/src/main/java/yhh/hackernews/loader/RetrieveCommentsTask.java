@@ -12,11 +12,11 @@ import yhh.hackernews.utils.Utilities;
  * Created by yhh
  */
 
-class RetrieveCommentsTask extends AsyncTask<Void, Void, Comment> {
+public class RetrieveCommentsTask extends AsyncTask<Void, Void, Comment> {
     private static final String TAG = "RetrieveCommentsTask";
     private static final boolean DEBUG = Utilities.DEBUG;
 
-    interface Callback {
+    public interface Callback {
         void onLoadComment(Comment comment, long parentId, CommentLoader.Callback callback);
     }
 
@@ -25,7 +25,7 @@ class RetrieveCommentsTask extends AsyncTask<Void, Void, Comment> {
     private final long mCommentId;
     private final long mParentId;
 
-    RetrieveCommentsTask(Callback cb, CommentLoader.Callback targetCallback, long commentId, long parentId) {
+    protected RetrieveCommentsTask(Callback cb, CommentLoader.Callback targetCallback, long commentId, long parentId) {
         mCallback = new WeakReference<>(cb);
         mTargetCallback = new WeakReference<>(targetCallback);
         mCommentId = commentId;

@@ -10,9 +10,9 @@ import yhh.hackernews.utils.Utilities;
 /**
  * Created by yhh
  */
-class RetrieveStoriesTask extends AsyncTask<Void, Void, Story> {
+public class RetrieveStoriesTask extends AsyncTask<Void, Void, Story> {
 
-    interface Callback {
+    public interface Callback {
         void onStoryLoad(RetrieveStoriesTask task, Story story);
 
         void onStoryLoadFailed(RetrieveStoriesTask task);
@@ -21,7 +21,7 @@ class RetrieveStoriesTask extends AsyncTask<Void, Void, Story> {
     private final WeakReference<Callback> mCallback;
     private final long mStoryId;
 
-    RetrieveStoriesTask(Callback cb, long storyId) {
+    protected RetrieveStoriesTask(Callback cb, long storyId) {
         mCallback = new WeakReference<>(cb);
         mStoryId = storyId;
     }

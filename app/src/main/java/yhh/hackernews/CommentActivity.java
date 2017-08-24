@@ -47,7 +47,7 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
         if (DEBUG) {
             Log.v(TAG, "story: " + mStory.toString());
         }
-        mCommentLoader = CommentLoader.getInstance();
+        mCommentLoader = new CommentLoader();
         mCommentLoader.setCallback(this);
         mCommentLoader.setKids(mStory.getId(), mStory.getKids());
 

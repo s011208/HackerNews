@@ -15,11 +15,11 @@ import yhh.hackernews.utils.Utilities;
 /**
  * Created by yhh
  */
-class RetrieveTopStoriesTask extends AsyncTask<Void, Void, List<Long>> {
+public class RetrieveTopStoriesTask extends AsyncTask<Void, Void, List<Long>> {
     private static final boolean DEBUG = Utilities.DEBUG;
     private static final String TAG = "RetrieveTopStoriesTask";
 
-    interface Callback {
+    public interface Callback {
         void onTopStoriesLoadFinish(List<Long> storyIds);
 
         void onTopStoriesLoadFailed();
@@ -27,7 +27,7 @@ class RetrieveTopStoriesTask extends AsyncTask<Void, Void, List<Long>> {
 
     private final WeakReference<Callback> mCallback;
 
-    RetrieveTopStoriesTask(Callback cb) {
+    protected RetrieveTopStoriesTask(Callback cb) {
         mCallback = new WeakReference<>(cb);
     }
 
