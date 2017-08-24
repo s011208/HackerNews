@@ -8,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -117,10 +116,8 @@ public abstract class Feed {
         ContentValues cv = getContentValues();
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
-        Iterator<String> cvKeys = cv.keySet().iterator();
-        while (cvKeys.hasNext()) {
-            final String key = cvKeys.next();
-            sb.append(key + ": " + cv.get(key) + "\n");
+        for (String key : cv.keySet()) {
+            sb.append(key).append(": ").append(cv.get(key)).append("\n");
         }
         return sb.toString();
     }

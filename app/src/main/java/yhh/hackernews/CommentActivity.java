@@ -31,6 +31,7 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
     private Story mStory;
     private CommentLoader mCommentLoader;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private RecyclerView mRecyclerView;
     private CommentRecyclerAdapter mCommentRecyclerAdapter;
     private TextView mHintTextView;

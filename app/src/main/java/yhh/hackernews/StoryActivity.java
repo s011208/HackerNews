@@ -28,6 +28,7 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private RecyclerView mTopStoriesRecycler;
     private TopStoriesRecyclerAdapter mTopStoriesRecyclerAdapter;
 

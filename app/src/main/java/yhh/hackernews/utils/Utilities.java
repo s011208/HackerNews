@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,8 +29,6 @@ import yhh.hackernews.feed.Feed;
 
 public class Utilities {
     public static final boolean DEBUG = true;
-
-    private static final String TAG = "Utilities";
 
     public static final String TOP_STORIES_URL = "https://hacker-news.firebaseio.com/v0/topstories.json";
 
@@ -69,22 +65,18 @@ public class Utilities {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String tempStr;
-                StringBuffer stringBuffer = new StringBuffer();
+                StringBuilder stringBuilder = new StringBuilder();
 
                 while ((tempStr = bufferedReader.readLine()) != null) {
-                    stringBuffer.append(tempStr);
+                    stringBuilder.append(tempStr);
                 }
 
                 bufferedReader.close();
                 inputStream.close();
-                return stringBuffer.toString();
+                return stringBuilder.toString();
             } else {
                 return null;
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

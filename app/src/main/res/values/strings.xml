@@ -14,6 +14,7 @@
     <string name="top_stories_time_and_comment_info">"%1$s ago - %2$d %3$s"</string>
     <string name="top_story_load_failed_hint">"Failed to load top news list. Please pull down the screen and refresh again!"</string>
     <string name="top_story_load_failed_toast">"Refresh failed. Please try again later."</string>
+    <string name="top_story_prefix">"%1$d. "</string>
 
     <string name="comment_by_and_time_info">"%1$s %2$s ago"</string>
 

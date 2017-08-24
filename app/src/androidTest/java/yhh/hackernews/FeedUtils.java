@@ -1,5 +1,7 @@
 package yhh.hackernews;
 
+import android.annotation.SuppressLint;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,7 +107,7 @@ class FeedUtils {
     }
 
     static Map<Long, List<Comment>> constructFakeCommentMap() {
-        Map<Long, List<Comment>> rtn = new HashMap<>();
+        @SuppressLint("UseSparseArrays") Map<Long, List<Comment>> rtn = new HashMap<>();
         List<Comment> fakeCommentList = constructFakeCommentList();
         List<Comment> commentList = new ArrayList<>();
         commentList.add(fakeCommentList.get(0));

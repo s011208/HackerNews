@@ -1,5 +1,7 @@
 package yhh.hackernews.loader;
 
+import android.annotation.SuppressLint;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +21,10 @@ class CommentDataSet {
         return sInstance;
     }
 
+    @SuppressLint("UseSparseArrays")
     private final Map<Long, List<Long>> mKidsMap = new HashMap<>();
 
+    @SuppressLint("UseSparseArrays")
     private final Map<Long, List<Comment>> mCommentMap = new HashMap<>();
 
     private CommentDataSet() {

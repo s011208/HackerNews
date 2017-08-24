@@ -52,7 +52,7 @@ public class TopStoriesRecyclerAdapter extends RecyclerView.Adapter<TopStoriesRe
     @Override
     public void onBindViewHolder(TopStoriesRecyclerViewHolder holder, int position) {
         final Story story = getItem(position);
-        holder.getTitlePrefix().setText((position + 1) + ". ");
+        holder.getTitlePrefix().setText(mContext.getString(R.string.top_story_prefix, position + 1));
         holder.getTitle().setText(story.getTitle());
         holder.getByInfo().setText(mContext.getString(R.string.top_stories_by_info, story.getScore(),
                 story.getScore() <= 1 ? mContext.getString(R.string.point) : mContext.getString(R.string.points), story.getBy()));
@@ -73,7 +73,7 @@ public class TopStoriesRecyclerAdapter extends RecyclerView.Adapter<TopStoriesRe
         return mStoriesList.size();
     }
 
-    Story getItem(int index) {
+    private Story getItem(int index) {
         return mStoriesList.get(index);
     }
 }
