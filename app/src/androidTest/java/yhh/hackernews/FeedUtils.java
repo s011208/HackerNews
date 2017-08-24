@@ -1,53 +1,55 @@
 package yhh.hackernews;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import yhh.hackernews.feed.Comment;
 import yhh.hackernews.feed.Story;
 
-public class FeedUtils {
+class FeedUtils {
     private FeedUtils() {
     }
 
-    public static List<Long> constructFakeTopStoryList() {
+    static List<Long> constructFakeTopStoryList() {
         List<Long> rtn = new ArrayList<>();
-        rtn.add(15082810l);
-        rtn.add(15083110l);
-        rtn.add(15081349l);
-        rtn.add(15082345l);
-        rtn.add(15083231l);
-        rtn.add(15080924l);
-        rtn.add(15082415l);
-        rtn.add(15083050l);
-        rtn.add(15081382l);
-        rtn.add(15083184l);
-        rtn.add(15079619l);
-        rtn.add(15082901l);
-        rtn.add(15078094l);
-        rtn.add(15078605l);
-        rtn.add(15081410l);
-        rtn.add(15081486l);
-        rtn.add(15083186l);
-        rtn.add(15078574l);
-        rtn.add(15080174l);
-        rtn.add(15081357l);
-        rtn.add(15080985l);
-        rtn.add(15078313l);
-        rtn.add(15074991l);
-        rtn.add(15081150l);
-        rtn.add(15081733l);
-        rtn.add(15073227l);
-        rtn.add(15082116l);
-        rtn.add(15081863l);
-        rtn.add(15077858l);
-        rtn.add(15064907l);
-        rtn.add(15078112l);
-        rtn.add(15077805l);
+        rtn.add(15082810L);
+        rtn.add(15083110L);
+        rtn.add(15081349L);
+        rtn.add(15082345L);
+        rtn.add(15083231L);
+        rtn.add(15080924L);
+        rtn.add(15082415L);
+        rtn.add(15083050L);
+        rtn.add(15081382L);
+        rtn.add(15083184L);
+        rtn.add(15079619L);
+        rtn.add(15082901L);
+        rtn.add(15078094L);
+        rtn.add(15078605L);
+        rtn.add(15081410L);
+        rtn.add(15081486L);
+        rtn.add(15083186L);
+        rtn.add(15078574L);
+        rtn.add(15080174L);
+        rtn.add(15081357L);
+        rtn.add(15080985L);
+        rtn.add(15078313L);
+        rtn.add(15074991L);
+        rtn.add(15081150L);
+        rtn.add(15081733L);
+        rtn.add(15073227L);
+        rtn.add(15082116L);
+        rtn.add(15081863L);
+        rtn.add(15077858L);
+        rtn.add(15064907L);
+        rtn.add(15078112L);
+        rtn.add(15077805L);
         return rtn;
     }
 
-    public static List<Story> constructFakeStoryList() {
+    static List<Story> constructFakeStoryList() {
         List<Story> rtn = new ArrayList<>();
         rtn.add(new Story("{\"by\":\"ropiku\",\"descendants\":57,\"id\":15082810,\"kids\":[15083682,15083199,15083074,15083748],\"score\":132,\"time\":1503505512,\"title\":\"Google Cloud Platform: Introducing network service tiers\",\"type\":\"story\",\"url\":\"https://cloudplatform.googleblog.com/2017/08/introducing-Network-Service-Tiers-your-cloud-network-your-way.html\"}"));
         rtn.add(new Story("{\"by\":\"mxfh\",\"descendants\":21,\"id\":15083110,\"kids\":[15083773,15083517,15083398,15083500],\"score\":60,\"time\":1503507438,\"title\":\"New and improved bike routing, with low stress options\",\"type\":\"story\",\"url\":\"https://mapzen.com/blog/low-stress-bike-routing/\"}"));
@@ -84,7 +86,7 @@ public class FeedUtils {
         return rtn;
     }
 
-    public static List<Comment> constructFakeCommentList() {
+    static List<Comment> constructFakeCommentList() {
         List<Comment> rtn = new ArrayList<>();
         rtn.add(new Comment("{\"by\":\"Veratyr\",\"id\":15083682,\"kids\":[15084095,15083937,15083902],\"parent\":15082810,\"text\":\"A long standing complaint of mine is that Cloud egress pricing severely limits the usefulness of compute. If I want to say process some visual effects on a large (1TB) ProRes video, I might spend $1 on the compute but $100 on the egress getting it back.<p>Unfortunately these changes don&#x27;t really resolve that problem. &quot;Standard&quot; pricing is a paltry 20% less. That 1TB video egress still costs $80 and for that price I can rent a beefy server with a dedicated gigabit pipe for a month.<p>Why is &quot;Cloud&quot; bandwidth so damned expensive?<p>I&#x27;d love a &quot;best effort&quot; or &quot;off peak&quot; tier. I imagine Google&#x27;s pipes are pretty empty when NA is asleep and my batch jobs aren&#x27;t really going to care.\",\"time\":1503511371,\"type\":\"comment\"}"));
         rtn.add(new Comment("{\"by\":\"rb808\",\"id\":15084095,\"parent\":15083682,\"text\":\"I was going to back up my photos to AWS Glacier before noticing that retrieval costs are multiple times the storage cost. I guess that is possibly OK for a backup but scared me into a physical alternative.<p><a href=\\\"http:&#x2F;&#x2F;liangzan.net&#x2F;aws-glacier-calculator&#x2F;\\\" rel=\\\"nofollow\\\">http:&#x2F;&#x2F;liangzan.net&#x2F;aws-glacier-calculator&#x2F;</a>\",\"time\":1503514364,\"type\":\"comment\"}"));
@@ -99,6 +101,45 @@ public class FeedUtils {
         rtn.add(new Comment("{\"by\":\"notyourday\",\"id\":15084145,\"parent\":15083303,\"text\":\"Just put the edges somewhere else, use GCP for compute and push the actual delivery to the edge.\",\"time\":1503514764,\"type\":\"comment\"}"));
         rtn.add(new Comment("{\"by\":\"idorosen\",\"id\":15083074,\"kids\":[15083471],\"parent\":15082810,\"text\":\"TL;DR: New Standard tier level is hot potato routing while existing (now called Premium) tier is cold potato routing.<p><a href=\\\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Hot-potato_and_cold-potato_routing\\\" rel=\\\"nofollow\\\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Hot-potato_and_cold-potato_rou...</a>\",\"time\":1503507184,\"type\":\"comment\"}"));
         rtn.add(new Comment("{\"by\":\"panarky\",\"id\":15083471,\"parent\":15083074,\"text\":\"Other cloud providers like AWS and Azure use hot-potato routing which has lower performance and reliability than GCP&#x27;s current network offering.<p>So Google is offering a new &quot;standard tier&quot; equivalent to AWS and Azure, and undercutting both of them on network egress costs by a small amount.<p>Network egress costs are still astronomical.\",\"time\":1503509939,\"type\":\"comment\"}"));
+        return rtn;
+    }
+
+    static Map<Long, List<Comment>> constructFakeCommentMap() {
+        Map<Long, List<Comment>> rtn = new HashMap<>();
+        List<Comment> fakeCommentList = constructFakeCommentList();
+        List<Comment> commentList = new ArrayList<>();
+        commentList.add(fakeCommentList.get(0));
+        commentList.add(fakeCommentList.get(5));
+        commentList.add(fakeCommentList.get(8));
+        commentList.add(fakeCommentList.get(11));
+        rtn.put(15082810L, commentList);
+
+        commentList = new ArrayList<>();
+        commentList.add(fakeCommentList.get(1));
+        commentList.add(fakeCommentList.get(2));
+        commentList.add(fakeCommentList.get(3));
+        rtn.put(15083682L, commentList);
+
+        commentList = new ArrayList<>();
+        commentList.add(fakeCommentList.get(4));
+        rtn.put(15083902L, commentList);
+
+        commentList = new ArrayList<>();
+        commentList.add(fakeCommentList.get(6));
+        commentList.add(fakeCommentList.get(7));
+        rtn.put(15083748L, commentList);
+
+        commentList = new ArrayList<>();
+        commentList.add(fakeCommentList.get(9));
+        rtn.put(15083199L, commentList);
+
+        commentList = new ArrayList<>();
+        commentList.add(fakeCommentList.get(10));
+        rtn.put(15083303L, commentList);
+
+        commentList = new ArrayList<>();
+        commentList.add(fakeCommentList.get(12));
+        rtn.put(15083074L, commentList);
         return rtn;
     }
 }

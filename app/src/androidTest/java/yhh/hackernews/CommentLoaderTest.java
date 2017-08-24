@@ -18,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class CommentLoaderTest {
-
     @Before
     public void setUp() {
         CommentLoader commentLoader = new CommentLoaderMock(null);
@@ -46,10 +45,10 @@ public class CommentLoaderTest {
         assertEquals(1, commentLoader.getComments(15083074).size());
     }
 
-    private static class CommentLoaderMock extends CommentLoader {
+    static class CommentLoaderMock extends CommentLoader {
         private CountDownLatch mCommentCountDown;
 
-        private CommentLoaderMock(CountDownLatch commentCountDown) {
+        CommentLoaderMock(CountDownLatch commentCountDown) {
             mCommentCountDown = commentCountDown;
         }
 

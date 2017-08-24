@@ -53,10 +53,23 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
         setContentView(R.layout.activity_comment);
         initComponents();
 
-        if (((HackerNewsApplication) getApplication()).getTestMode() !=
-                HackerNewsApplication.TEST_MODE_MOCK_STORY_LOADER) {
+        final int testMode = ((HackerNewsApplication) getApplication()).getTestMode();
+        if (testMode != HackerNewsApplication.TEST_MODE_MOCK_STORY_LOADER &&
+                testMode != HackerNewsApplication.TEST_MODE_MOCK_COMMENT_LOADER) {
             mCommentLoader.loadComments(mStory);
         }
+    }
+
+    public Story getStory() {
+        return mStory;
+    }
+
+    public void setCommentLoader(CommentLoader commentLoader) {
+        if (mCommentLoader != null) {
+            mCommentLoader.setCallback(null);
+        }
+        mCommentLoader = commentLoader;
+        mCommentLoader.setCallback(this);
     }
 
     private void initComponents() {
@@ -65,7 +78,7 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
         mRecyclerView = (RecyclerView) findViewById(R.id.comment_recyclerview);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Comment> commentList = getComments(mStory.getId(), 0);
+        List<Comment> commentList = getComments(mCommentLoader, mStory.getId(), 0);
         if (!commentList.isEmpty()) {
             mHintTextView.setVisibility(View.INVISIBLE);
         } else if (!mStory.getKids().isEmpty()) {
@@ -87,22 +100,22 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
             return;
         }
 
-        List<Comment> storyComments = getComments(mStory.getId(), 0);
+        List<Comment> storyComments = getComments(mCommentLoader, mStory.getId(), 0);
 
         mCommentRecyclerAdapter.updateCommentList(storyComments);
 
         mHintTextView.setVisibility(View.INVISIBLE);
     }
 
-    private List<Comment> getComments(long keyId, int level) {
-        List<Comment> kidsComment = mCommentLoader.getComments(keyId);
+    public static List<Comment> getComments(CommentLoader commentLoader, long keyId, int level) {
+        List<Comment> kidsComment = commentLoader.getComments(keyId);
         if (kidsComment.isEmpty()) return new ArrayList<>();
         List<Comment> rtn = new ArrayList<>();
         for (Comment comment : kidsComment) {
             if (comment.isDeleted()) continue;
             comment.setLevel(level);
             rtn.add(comment);
-            rtn.addAll(getComments(comment.getId(), level + 1));
+            rtn.addAll(getComments(commentLoader, comment.getId(), level + 1));
         }
         return rtn;
     }
