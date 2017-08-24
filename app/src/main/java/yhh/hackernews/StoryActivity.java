@@ -12,6 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import yhh.hackernews.feed.Story;
 import yhh.hackernews.loader.StoryLoader;
 import yhh.hackernews.ui.TopStoriesRecyclerAdapter;
@@ -42,16 +44,25 @@ public class StoryActivity extends AppCompatActivity implements StoryLoader.Call
         }
         setContentView(R.layout.activity_story);
 
-        mStoryLoader = constructStoryLoader();
-        mStoryLoader.setCallback(this);
-        if (mStoryLoader.getStoryList().isEmpty()) {
-            mStoryLoader.loadStory();
+        mStoryLoader = new StoryLoader();
+
+        if (((HackerNewsApplication) getApplication()).getTestMode() !=
+                HackerNewsApplication.TEST_MODE_MOCK_STORY_LOADER) {
+            mStoryLoader.setCallback(this);
+            if (mStoryLoader.getStoryList().isEmpty()) {
+                mStoryLoader.loadStory();
+            }
         }
         initComponents();
     }
 
-    StoryLoader constructStoryLoader() {
-        return new StoryLoader();
+    void setStoryLoader(StoryLoader storyLoader) {
+        if (mStoryLoader != null) {
+            mStoryLoader.setCallback(null);
+        }
+        mStoryLoader = storyLoader;
+        mStoryLoader.setCallback(this);
+        mTopStoriesRecyclerAdapter.updateStoriesList(new ArrayList<Story>());
     }
 
     private void initComponents() {

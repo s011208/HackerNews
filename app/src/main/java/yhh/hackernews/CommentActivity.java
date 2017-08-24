@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import yhh.hackernews.feed.Comment;
@@ -53,7 +52,11 @@ public class CommentActivity extends AppCompatActivity implements CommentLoader.
 
         setContentView(R.layout.activity_comment);
         initComponents();
-        mCommentLoader.loadComments(mStory);
+
+        if (((HackerNewsApplication) getApplication()).getTestMode() !=
+                HackerNewsApplication.TEST_MODE_MOCK_STORY_LOADER) {
+            mCommentLoader.loadComments(mStory);
+        }
     }
 
     private void initComponents() {
